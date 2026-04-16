@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Libre Decision System 😌</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            width: 340px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 25px;
+            margin: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        #yesBtn {
+            background: #ff4d6d;
+            color: white;
+        }
+
+        #noBtn {
+            background: #444;
+            color: white;
+            position: absolute;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #loading {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Decision System 🤖</h1>
+
+    <div id="loading">Analyzing emotional budget…</div>
+
+    <div id="content" style="display:none;">
+        <p>Result: Should you libre this person?</p>
+
+        <button id="yesBtn" onclick="yes()">Yes 💖</button>
+        <button id="noBtn" onclick="no()">No 💔</button>
+
+        <div id="message"></div>
+    </div>
+</div>
+
+<script>
+    const noBtn = document.getElementById("noBtn");
+
+    // fake loading system
+    setTimeout(() => {
+        document.getElementById("loading").innerText = "Final decision ready.";
+    }, 1500);
+
+    setTimeout(() => {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("content").style.display = "block";
+    }, 2500);
+
+    // runaway No button (stronger chaos)
+    document.addEventListener("mousemove", (e) => {
+        const rect = noBtn.getBoundingClientRect();
+
+        const dx = e.clientX - rect.left;
+        const dy = e.clientY - rect.top;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 140) {
+            noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+            noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
+        }
+    });
+
+    function yes() {
+        document.getElementById("message").innerText =
+            "SYSTEM APPROVED 💖 you are now officially getting libre-ed 😌✨";
+
+        spawn("💖", 30);
+        spawn("🎉", 40);
+    }
+
+    function no() {
+        document.getElementById("message").innerText =
+            "💔 decision recorded… emotional damage acknowledged.";
+        spawn("💔", 20);
+    }
+
+    function spawn(emoji, count) {
+        for (let i = 0; i < count; i++) {
+            const el = document.createElement("div");
+            el.innerText = emoji;
+            el.style.position = "fixed";
+            el.style.left = Math.random() * window.innerWidth + "px";
+            el.style.top = "-20px";
+            el.style.fontSize = "22px";
+            el.style.animation = "fall 2.5s linear forwards";
+            document.body.appendChild(el);
+
+            setTimeout(() => el.remove(), 2500);
+        }
+    }
+
+    // animation
+    const style = document.createElement("style");
+    style.innerHTML = `
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+
+</body>
+</html>
